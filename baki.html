@@ -225,6 +225,39 @@
 
         return `${day}-${month}-${year}`;
     }
+    calculateTotals();
+
+function calculateTotals() {
+    var totalBaki = 0;
+    var totalJama = 0;
+    var totalAll = 0;
+
+    // Loop through localStorage items
+    for (var key in localStorage) {
+        if (key.startsWith("CBDATA_")) {
+            var data = JSON.parse(localStorage.getItem(key));
+
+            // Calculate total based on CB_TYPE
+            if (data.tpceType === "baki") {
+                totalBaki += parseFloat(data.price);
+            } else if (data.tpceType === "jama") {
+                totalJama += parseFloat(data.price);
+            }
+
+            // Calculate total for all entries
+            totalAll += parseFloat(data.price);
+        }
+    }
+
+    // Output or use totals as needed
+    console.log("Total Baki:", totalBaki);
+    console.log("Total Jama:", totalJama);
+    console.log("Total All:", totalAll);
+
+   const tbaki =  document.querySelector("#tbaki")
+   tbaki.value = totalBaki;
+
+}
     </script>
 </body>
 <script src="script.js"></script>
