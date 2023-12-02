@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Input Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #f0f8ff; /* Light Blue */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+            display: none;
+        }
+
+        input[type="radio"] + label {
+            background-color: #99ff9c; 
+            /* Green */
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: #ed5407;
+        }
+
+        button {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #008CBA; /* Blue */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #007B9F;
+        }
+    </style>
+</head>
+<body>
+    <h2>Edit Details</h2>
+    <form id="editForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="contactNo">Contact Number:</label>
+        <input type="text" id="contactNo" name="contactNo" required>
+
+        <label for="district">District:</label>
+        <input type="text" id="district" name="district" required>
+
+        <label for="block">Block:</label>
+        <input type="text" id="block" name="block" required>
+
+        <label for="panchayat">Panchayat Name:</label>
+        <input type="text" id="panchayat" name="panchayat" required>
+
+        <label>Book Type:</label>
+        <input type="radio" id="book1" name="bookType" value="book1" checked>
+        <label for="book1">Book1</label>
+        <input type="radio" id="book2" name="bookType" value="book2">
+        <label for="book2">Book2</label>
+
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" required>
+
+        <label>TPCE Type:</label>
+        <input type="radio" id="jama" name="tpceType" value="jama" checked>
+        <label for="jama">Jama</label>
+        <input type="radio" id="baki" name="tpceType" value="baki">
+        <label for="baki">Baki</label>
+
+        <label for="year">Year:</label>
+        <select id="year" name="year">
+            <option value="2023-2024">2023-2024</option>
+            <option value="2022-2023">2022-2023</option>
+            <option value="2021-2022">2021-2022</option>
+            <option value="2020-2021">2020-2021</option>
+            <option value="2019-2020">2019-2020</option>
+            <option value="2018-2019">2018-2019</option>
+            <option value="2017-2018">2017-2018</option>
+            <option value="2016-2017">2016-2017</option>
+        </select>
+
+        <label for="dateReceive">Date of Receive:</label>
+        <input type="text" id="dateReceive" name="dateReceive" required>
+
+        <label for="dateSend">Date of Send:</label>
+        <input type="text" id="dateSend" name="dateSend" required>
+
+        <br><br>
+        <button type="button" onclick="updateData()">Update</button>
+        <button type="button" onclick="cancelbtn()">Cancel</button>
+    </form>
+
+    <script>
+function updateData() {
+    // Get updated form values
+    var name = document.getElementById('name').value;
+    var contactNo = document.getElementById('contactNo').value;
+    var district = document.getElementById('district').value;
+    var block = document.getElementById('block').value;
+    var panchayat = document.getElementById('panchayat').value;
+    var bookType = document.querySelector('input[name="bookType"]:checked').value;
+    var price = document.getElementById('price').value;
+    var tpceType = document.querySelector('input[name="tpceType"]:checked').value;
+    var year = document.getElementById('year').value;
+    var dateReceive = document.getElementById('dateReceive').value;
+    var dateSend = document.getElementById('dateSend').value;
+
+    // Update the data object
+    var updatedData = {
+        name: name,
+        contactNo: contactNo,
+        district: district,
+        block: block,
+        panchayat: panchayat,
+        bookType: bookType,
+        price: price,
+        tpceType: tpceType,
+        year: year,
+        dateReceive: dateReceive,
+        dateSend: dateSend
+    };
+
+    // Save updated data back to localStorage with the original key
+    localStorage.setItem(editKey, JSON.stringify(updatedData));
+
+    // Display success message or perform other actions as needed
+    alert("Data updated successfully!");
+
+    // Optionally, redirect to another page
+    window.location.href = "index2.html";
+}
+
+// Retrieve the key from localStorage
+var editKey = localStorage.getItem('foreditkey');
+
+// Check if the key is present
+if (editKey) {
+    // Retrieve data using the key
+    var data = JSON.parse(localStorage.getItem(editKey));
+
+    // Populate form fields with data
+    document.getElementById('name').value = data.name;
+    document.getElementById('contactNo').value = data.contactNo;
+    document.getElementById('district').value = data.district;
+    document.getElementById('block').value = data.block;
+    document.getElementById('panchayat').value = data.panchayat;
+
+    // Check the appropriate radio button for Book Type
+    var bookTypeRadioButton = document.getElementById(data.bookType);
+    if (bookTypeRadioButton) {
+        bookTypeRadioButton.checked = true;
+    } else {
+        console.error("Element not found for bookType: " + data.bookType);
+    }
+
+    document.getElementById('price').value = data.price;
+
+    // Check the appropriate radio button for TPCE Type
+    document.getElementById(data.tpceType).checked = true;
+
+    document.getElementById('year').value = data.year;
+    document.getElementById('dateReceive').value = data.dateReceive;
+    document.getElementById('dateSend').value = data.dateSend;
+}
+
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #f0f8ff; /* Light Blue */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+            display: none;
+        }
+
+        input[type="radio"] + label {
+            background-color: #99ff9c; 
+            /* Green */
+            color: rgb(0, 0, 0)beb;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: #ed5407;
+        }
+
+        button, a {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #008CBA; /* Blue */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        button:hover, a:hover {
+            background-color: #007B9F;
+        }
+    </style>
+</head>
+<body>
+    <h2>Input Details</h2>
+    <form id="bookForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="contactNo">Contact Number:</label>
+        <input type="text" id="contactNo" name="contactNo" required>
+
+        <label for="district">District:</label>
+        <input type="text" id="district" name="district" required>
+
+        <label for="block">Block:</label>
+        <input type="text" id="block" name="block" required>
+
+        <label for="panchayat">Panchayat Name:</label>
+        <input type="text" id="panchayat" name="panchayat" required>
+
+        <label>Book Type:</label>
+        <input type="radio" id="book1" name="bookType" value="Mnarega" required>
+        <label for="book1">Mnarega</label>
+        <input type="radio" id="book2" name="bookType" value="Panchayat" required>
+        <label for="book2">Panchayat</label>
+
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" required>
+
+        <label>TPCE Type:</label>
+        <input type="radio" id="jama" name="tpceType" value="jama" required>
+        <label for="jama">Jama</label>
+        <input type="radio" id="baki" name="tpceType" value="baki" required>
+        <label for="baki">Baki</label>
+
+        <label for="year">Year:</label>
+        <select id="year" name="year" required>
+            <option value="2023-2024">2023-2024</option>
+            <option value="2022-2023">2022-2023</option>
+            <option value="2021-2022">2021-2022</option>
+            <option value="2020-2021">2020-2021</option>
+            <option value="2019-2020">2019-2020</option>
+            <option value="2018-2019">2018-2019</option>
+            <option value="2017-2018">2017-2018</option>
+            <option value="2016-2017">2016-2017</option>
+        </select>
+
+        <label for="dateReceive">Date of Receive:</label>
+        <input type="date" id="dateReceive" name="dateReceive" required>
+
+        <label for="dateSend">Date of Send:</label>
+        <input type="date" id="dateSend" name="dateSend" required>
+
+        <br><br>
+        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="button" onclick="cancelbtn()">Cancel</button>
+    </form>
+
+    <script>
+         function submitForm() {
+            // Get form values
+            var name = document.getElementById('name').value;
+            var contactNo = document.getElementById('contactNo').value;
+            var district = document.getElementById('district').value;
+            var block = document.getElementById('block').value;
+            var panchayat = document.getElementById('panchayat').value;
+            var bookType = document.querySelector('input[name="bookType"]:checked').value;
+            var price = document.getElementById('price').value;
+            var tpceType = document.querySelector('input[name="tpceType"]:checked').value;
+            var year = document.getElementById('year').value;
+            var dateReceive = document.getElementById('dateReceive').value;
+            var dateSend = document.getElementById('dateSend').value;
+
+            if(localStorage.getItem("formcount") === null){
+                localStorage.setItem("formcount", 1);
+                var formcount = localStorage.getItem("formcount");
+            }
+            else{
+                var formcount = localStorage.getItem("formcount");
+               formcount2 =  ++formcount;
+                localStorage.setItem("formcount",formcount2);
+
+            }
+            // Generate a unique ID
+            var uniqueID = formcount;
+            // var uniqueID = new Date().getTime();
+
+            // Create a data object
+            var data = {
+                name: name,
+                contactNo: contactNo,
+                district: district,
+                block: block,
+                panchayat: panchayat,
+                bookType: bookType,
+                price: price,
+                tpceType: tpceType,
+                year: year,
+                dateReceive: dateReceive,
+                dateSend: dateSend,
+                formcountvalue: formcount
+            };
+
+            // Save data to localStorage with a unique key
+            localStorage.setItem('CBDATA_' + uniqueID, JSON.stringify(data));
+
+            // Display success message or perform other actions as needed
+            alert("Form submitted successfully!");
+
+            // Optionally, redirect to another page
+            window.location.href = "index2.html";
+        }
+
+        function cancelbtn() {
+            window.location.href = "index2.html";
+        }
+    </script>
+</body>
+</html>
