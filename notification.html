@@ -43,17 +43,8 @@
             // Request notification permission
             Notification.requestPermission().then(function (permission) {
                 if (permission === 'granted') {
-                    // Create a notification
-                    var notification = new Notification('Hello!', {
-                        body: 'This is a styled notification example.',
-                        icon: 'path/to/icon.png', // Optional: Add a path to your notification icon
-                    });
-
-                    // Optional: Add an event listener to handle clicks on the notification
-                    notification.addEventListener('click', function () {
-                        // Your code to handle the notification click
-                        console.log('Notification clicked');
-                    });
+                    // Call the AndroidBridge's showAndroidNotification method
+                    AndroidBridge.showAndroidNotification('Hello!', 'This is a styled notification example.');
                 }
             }).catch(function (error) {
                 console.error('Error requesting notification permission:', error);
