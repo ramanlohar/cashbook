@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    #content {
+      max-width: 800px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+  <title>Notification Example</title>
+</head>
+<body>
+  <div id="content">
+    <h1>Welcome to My Webpage!</h1>
+    <button onclick="showNotification()">Show Notification</button>
+  </div>
+  <script>
+    function showNotification() {
+      if ('Notification' in window) {
+        Notification.requestPermission().then(function (permission) {
+          if (permission === 'granted') {
+            var notification = new Notification('Hello!', {
+              body: 'This is a notification from My Webpage!',
+              icon: 'path/to/icon.png', // Optional: Add a path to your notification icon
+            });
+
+            // Optional: Add an event listener to handle clicks on the notification
+            notification.addEventListener('click', function () {
+              window.focus(); // Bring the window into focus when the notification is clicked
+            });
+          }
+        });
+      } else {
+        alert('Notifications are not supported in your browser.');
+      }
+    }
+  </script>
+</body>
+</html>
