@@ -97,7 +97,7 @@ header #editbtn{
 }
 
 .footer button {
-    background-color: #008CBA;
+    background-color: #3489DB;
     padding: 10px;
     border-radius: 7px;
     color: white;
@@ -130,7 +130,7 @@ footer input{
     background-color: transparent;
 }
 #filterbtn{
-    background-color: #008CBA;
+    background-color: #3489DB;
     display: flex;
     justify-content: space-around;
     /* padding: 3px; */
@@ -138,7 +138,7 @@ footer input{
     top: 62.2px;
 }
 #filterbtn button{
-    background-color: #008CBA;
+    background-color: #3489DB;
     border: none;
     color: white;
     padding: 5px 10px;
