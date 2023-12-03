@@ -1,58 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Example</title>
+    
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
 
-    #content {
-      max-width: 800px;
-      margin: 50px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .notification-container {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-    button {
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
-  <title>Notification Example</title>
+        .notification-container:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div id="content">
-    <h1>Welcome to My Webpage!</h1>
-    <button onclick="showNotification()">Show Notification</button>
-  </div>
-  <script>
-    function showNotification() {
-      if ('Notification' in window) {
-        Notification.requestPermission().then(function (permission) {
-          if (permission === 'granted') {
-            var notification = new Notification('Hello!', {
-              body: 'This is a notification from My Webpage!',
-              icon: 'path/to/icon.png', // Optional: Add a path to your notification icon
-            });
 
-            // Optional: Add an event listener to handle clicks on the notification
-            notification.addEventListener('click', function () {
-              window.focus(); // Bring the window into focus when the notification is clicked
+<div class="notification-container" onclick="showNotification()">
+    Click to Show Notification
+</div>
+
+<script>
+    function showNotification() {
+        // Check if the browser supports the Notification API
+        if ('Notification' in window) {
+            // Request notification permission
+            Notification.requestPermission().then(function (permission) {
+                if (permission === 'granted') {
+                    // Create a notification
+                    var notification = new Notification('Hello!', {
+                        body: 'This is a styled notification example.',
+                        icon: 'path/to/icon.png', // Optional: Add a path to your notification icon
+                    });
+
+                    // Optional: Add an event listener to handle clicks on the notification
+                    notification.addEventListener('click', function () {
+                        // Your code to handle the notification click
+                        console.log('Notification clicked');
+                    });
+                }
+            }).catch(function (error) {
+                console.error('Error requesting notification permission:', error);
             });
-          }
-        });
-      } else {
-        alert('Notifications are not supported in your browser.');
-      }
+        } else {
+            console.error('Notifications are not supported in your browser.');
+        }
     }
-  </script>
+</script>
+
 </body>
 </html>
