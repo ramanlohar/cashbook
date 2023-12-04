@@ -18,7 +18,7 @@
 
 <body>
     <div id="sidebar">
-        
+
     </div>
     <header>
         <div>
@@ -149,16 +149,33 @@
         // Add an Edit button to each list item in the "EDIT" column
         if (listId === "jamaDataList7") {
             var editButton = document.createElement("span");
+            var deletButton = document.createElement("span");
             editButton.className = "edit-button";
+            deletButton.className = "del-button";
             editButton.textContent = "Edit";
+            deletButton.textContent = "Del";
             editButton.addEventListener("click", function () {
                 // Set the key in localStorage for editing
                 localStorage.setItem("foreditkey", key);
                 // Redirect to the editinput.html page
                 window.location.href = "editinput.html";
             });
+            deletButton.addEventListener("click", () => {
+                var isConfirmed = window.confirm("Are you sure you want to delete this row?");
+
+                // If the user clicks "OK" in the confirmation dialog, proceed with deletion
+                if (isConfirmed) {
+                    // Remove the item from localStorage
+                    localStorage.removeItem(key);
+                    // Update the displayed data
+                    // getAllInputData();
+                    location.reload();
+                }
+                //udate the code
+            })
 
             listItem.appendChild(editButton);
+            listItem.appendChild(deletButton);
         }
 
         inputDataList.appendChild(listItem);
@@ -180,6 +197,7 @@
             return `${day}-${month}-${year}`;
         }
     }
+
 </script>
 <script src="script.js"></script>
 <script src="sidebar.js"></script>

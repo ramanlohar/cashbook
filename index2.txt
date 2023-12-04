@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <style>
+        #filterbtn #btn1 {
+            background-color: white;
+            color: black;
+            border-radius: 7px 7px 0px 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sidebar">
+        
+    </div>
+    <header>
+        <div>
+            <button id="menubtn" style="font-size:30px;cursor:pointer" onclick="openNav()">☰</button>
+        </div>
+        <div>
+            <h2>Home</h2>
+        </div>
+        <div>
+            <button id="editbtn">Edit</button>
+            <!--             <a href="notification.html"> -->
+
+            <!--             <button id="editbtn">Noti</button> -->
+            <!--             </a> -->
+        </div>
+    </header>
+    <!-- <div id="filterbtn">
+        <button id="btn1">All</button>
+        <button id="btn2">Baki</button>
+        <button id="btn3">Jama</button>
+    </div> -->
+    <div id="columndiv">
+        <!-- EDIT -->
+        <div id="column7" class="column">
+            <label for="">EDIT</label>
+            <ul id="jamaDataList7"></ul>
+        </div>
+        <!-- EDIT -->
+        <div id="column0" class="column">
+            <label for="">NO.</label>
+            <ul id="inputDataList0"></ul>
+        </div>
+        <div id="column1" class="column">
+            <label for="">Name</label>
+            <ul id="inputDataList1"></ul>
+        </div>
+        <div id="column2" class="column">
+            <label for="">Contact</label>
+            <ul id="inputDataList2"></ul>
+        </div>
+        <div id="column3" class="column">
+            <label for="">D_B_P</label>
+            <ul id="inputDataList3"></ul>
+        </div>
+        <div id="column4" class="column">
+            <label for="">Year</label>
+            <ul id="inputDataList4"></ul>
+        </div>
+        <div id="column5" class="column">
+            <label for="">CB_TYPE</label>
+            <ul id="inputDataList5"></ul>
+        </div>
+        <!-- 888888888888888888888888888888 -->
+        <div id="column8" class="column">
+            <label for="">Receive</label>
+            <ul id="inputDataList8"></ul>
+        </div>
+        <div id="column9" class="column">
+            <label for="">Send</label>
+            <ul id="inputDataList9"></ul>
+        </div>
+        <div id="column10" class="column">
+            <label for="">Money</label>
+            <ul id="inputDataList10"></ul>
+        </div>
+        <!-- 10000000000000000000000000000 -->
+        <div id="column6" class="column">
+            <label for="">J/B</label>
+            <ul id="inputDataList6"></ul>
+        </div>
+    </div>
+    <footer class="footer">
+        <div id="pricediv">
+            <div>
+                <label for="">Total Amount :</label>
+                <input id="ttotal" type="text" readonly>
+            </div>
+            <div>
+                <label for="">Total Deposit :</label>
+                <input id="tjama" type="text" readonly>
+            </div>
+            <div>
+                <label for="">Total Remaining :</label>
+                <input id="tbaki" type="text" readonly>
+            </div>
+        </div>
+        <button id="addbtn">Add Data</button>
+    </footer>
+</body>
+<script>
+    getAllInputData();
+
+    function getAllInputData() {
+        // Get all localStorage keys and sort them
+        var keys = Object.keys(localStorage).filter(key => key.startsWith("CBDATA_")).sort();
+
+        // Loop through sorted localStorage keys
+        var index = 1;
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            var data = JSON.parse(localStorage.getItem(key));
+
+
+
+            // Append the data to the corresponding column
+            appendToList("inputDataList0", index);
+            appendToList("inputDataList1", data.name);
+            appendToList("inputDataList2", data.contactNo);
+            appendToList("inputDataList3", `${data.district}, ${data.block}, ${data.panchayat}`);
+            appendToList("inputDataList4", data.year);
+            appendToList("inputDataList5", data.bookType);
+            appendToList("inputDataList6", data.tpceType);
+            appendToList("jamaDataList7", ``, key);
+            appendToList("inputDataList8", formatDate(data.dateReceive));
+            appendToList("inputDataList9", formatDate(data.dateSend));
+            appendToList("inputDataList10", data.price);
+
+            index++;
+        }
+    }
+
+    function appendToList(listId, data, key) {
+        var inputDataList = document.getElementById(listId);
+        var listItem = document.createElement("li");
+        listItem.textContent = data;
+        inputDataList.appendChild(listItem);
+
+        // Add an Edit button to each list item in the "EDIT" column
+        if (listId === "jamaDataList7") {
+            var editButton = document.createElement("span");
+            editButton.className = "edit-button";
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", function () {
+                // Set the key in localStorage for editing
+                localStorage.setItem("foreditkey", key);
+                // Redirect to the editinput.html page
+                window.location.href = "editinput.html";
+            });
+
+            listItem.appendChild(editButton);
+        }
+
+        inputDataList.appendChild(listItem);
+    }
+
+    function formatDate(dateString) {
+
+        if (dateString == "" || dateString == "Panding..") {
+            return `Panding...`;
+        }
+        else {
+
+            // Convert the date to dd mm yyyy format
+            var date = new Date(dateString);
+            var day = date.getDate().toString().padStart(2, '0');
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var year = date.getFullYear();
+
+            return `${day}-${month}-${year}`;
+        }
+    }
+</script>
+<script src="script.js"></script>
+<script src="sidebar.js"></script>
+
+</html>
