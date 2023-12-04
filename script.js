@@ -63,3 +63,5 @@ function calculateTotals() {
    tbaki.value = totalBaki;
 
 }
+
+

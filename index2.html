@@ -114,6 +114,8 @@
             var key = keys[i];
             var data = JSON.parse(localStorage.getItem(key));
 
+           
+
             // Append the data to the corresponding column
             appendToList("inputDataList0", index);
             appendToList("inputDataList1", data.name);
@@ -156,13 +158,20 @@
     }
 
     function formatDate(dateString) {
-        // Convert the date to dd mm yyyy format
-        var date = new Date(dateString);
-        var day = date.getDate().toString().padStart(2, '0');
-        var month = (date.getMonth() + 1).toString().padStart(2, '0');
-        var year = date.getFullYear();
 
-        return `${day}-${month}-${year}`;
+        if (dateString == "" || dateString == "Panding..") {
+            return `Panding...`;     
+            }
+        else{
+            
+            // Convert the date to dd mm yyyy format
+            var date = new Date(dateString);
+            var day = date.getDate().toString().padStart(2, '0');
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var year = date.getFullYear();
+            
+            return `${day}-${month}-${year}`;
+        }
     }
 </script>
 <script src="script.js"></script>

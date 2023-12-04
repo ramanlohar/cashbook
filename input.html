@@ -147,6 +147,11 @@
             var dateReceive = document.getElementById('dateReceive').value;
             var dateSend = document.getElementById('dateSend').value;
 
+
+            if (price == "") {
+                price =  "0";
+            }
+
             if(localStorage.getItem("formcount") === null){
                 localStorage.setItem("formcount", 1);
                 var formcount = localStorage.getItem("formcount");
