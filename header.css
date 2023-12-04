@@ -89,6 +89,8 @@ header #editbtn{
     border: white;
     color: #008CBA;
     border: 2px solid #3489DB;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 .footer {
     background-color: rgb(242, 242, 242,0.9);

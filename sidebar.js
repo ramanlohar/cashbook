@@ -1,3 +1,4 @@
+
 const sidebar = document.getElementById("sidebar");
 
 const sidebardiv = document.createElement("div");
@@ -179,3 +180,4 @@ var allElements = document.querySelectorAll('li');
 allElements.forEach(function(element) {
     element.style.fontSize = `${fontsizeoflis.value}px`;
 });
+
