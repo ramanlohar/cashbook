@@ -29,6 +29,8 @@ sidebardiv.innerHTML = `
     <br>
     <p id="filterjama">Deposit Amount<p>
     <p id="filterbaki">Remaining Amount<p>
+    <p id="filterpandingsend">Panding Send<p>
+    <p id="filterpandingreceive">Panding Receive<p>
     <br>
     <label>Font - Size : </label>
     <input id="fontsizeoflis" type="range" name="volume" min="10" max="20" value="">
@@ -139,6 +141,18 @@ filterTypevalue.addEventListener("input", () => {
     }
 
 });
+document.getElementById("filterpandingsend").addEventListener("click",()=>{
+    localStorage.setItem("datafiltervalue", "dateSend");
+    localStorage.setItem("filtervalue", "");
+    window.location.href = "filter.html"
+})
+// filterpandingreceive
+
+document.getElementById("filterpandingreceive").addEventListener("click",()=>{
+    localStorage.setItem("datafiltervalue", "dateReceive");
+    localStorage.setItem("filtervalue", "");
+    window.location.href = "filter.html"
+})
 
 document.getElementById("filterjama").addEventListener("click",()=>{
     localStorage.setItem("datafiltervalue", "tpceType");
