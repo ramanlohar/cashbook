@@ -1,0 +1,42 @@
+#confirmationdilogue {
+    display: none;
+     /* Add this line to initially hide the dialog */
+    position: fixed;
+    top: 50%;
+    left: 30%;
+    transform: translate(-20%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 1000;
+}
+
+#warntext {
+    color: #FFD700;
+}
+
+#warnsypble {
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+#yesbutton {
+    background-color: #DC3545;
+    /* Red color for the 'Yes' button */
+}
+
+#cancelbutton {
+    background-color: #6C757D;
+    /* Gray color for the 'Cancel' button */
+}

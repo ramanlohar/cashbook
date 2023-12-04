@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="confirm.css">
     <style>
         #filterbtn #btn1 {
             background-color: white;
@@ -161,17 +162,14 @@
                 window.location.href = "editinput.html";
             });
             deletButton.addEventListener("click", () => {
-                var isConfirmed = window.confirm("Are you sure you want to delete this row?");
-
-                // If the user clicks "OK" in the confirmation dialog, proceed with deletion
-                if (isConfirmed) {
-                    // Remove the item from localStorage
+                showConfirmationDialog()
+                document.getElementById('yesbutton').addEventListener('click', function () {
+                    // Handle 'Yes' button click
+                    // ... your delete logic here ...
                     localStorage.removeItem(key);
-                    // Update the displayed data
-                    // getAllInputData();
                     location.reload();
-                }
-                //udate the code
+                    hideConfirmationDialog();
+                });
             })
 
             listItem.appendChild(editButton);
@@ -201,5 +199,6 @@
 </script>
 <script src="script.js"></script>
 <script src="sidebar.js"></script>
+<script src="confirm.js"></script>
 
 </html>
