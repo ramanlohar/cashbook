@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="sidebar.css">
     <style>
         #filterbtn #btn1 {
             background-color: white;
@@ -16,23 +17,29 @@
 </head>
 
 <body>
+    <div id="sidebar">
+        
+    </div>
     <header>
+        <div>
+            <button id="menubtn" style="font-size:30px;cursor:pointer" onclick="openNav()">☰</button>
+        </div>
         <div>
             <h2>Home</h2>
         </div>
         <div>
             <button id="editbtn">Edit</button>
-<!--             <a href="notification.html"> -->
-                
-<!--             <button id="editbtn">Noti</button> -->
-<!--             </a> -->
+            <!--             <a href="notification.html"> -->
+
+            <!--             <button id="editbtn">Noti</button> -->
+            <!--             </a> -->
         </div>
     </header>
-    <div id="filterbtn">
+    <!-- <div id="filterbtn">
         <button id="btn1">All</button>
         <button id="btn2">Baki</button>
         <button id="btn3">Jama</button>
-    </div>
+    </div> -->
     <div id="columndiv">
         <!-- EDIT -->
         <div id="column7" class="column">
@@ -86,15 +93,15 @@
     <footer class="footer">
         <div id="pricediv">
             <div>
-                <label for="">All Total :</label>
+                <label for="">Total Amount :</label>
                 <input id="ttotal" type="text" readonly>
             </div>
             <div>
-                <label for="">Total Jama :</label>
+                <label for="">Total Deposit :</label>
                 <input id="tjama" type="text" readonly>
             </div>
             <div>
-                <label for="">Total baki :</label>
+                <label for="">Total Remaining :</label>
                 <input id="tbaki" type="text" readonly>
             </div>
         </div>
@@ -114,7 +121,7 @@
             var key = keys[i];
             var data = JSON.parse(localStorage.getItem(key));
 
-           
+
 
             // Append the data to the corresponding column
             appendToList("inputDataList0", index);
@@ -160,20 +167,21 @@
     function formatDate(dateString) {
 
         if (dateString == "" || dateString == "Panding..") {
-            return `Panding...`;     
-            }
-        else{
-            
+            return `Panding...`;
+        }
+        else {
+
             // Convert the date to dd mm yyyy format
             var date = new Date(dateString);
             var day = date.getDate().toString().padStart(2, '0');
             var month = (date.getMonth() + 1).toString().padStart(2, '0');
             var year = date.getFullYear();
-            
+
             return `${day}-${month}-${year}`;
         }
     }
 </script>
 <script src="script.js"></script>
+<script src="sidebar.js"></script>
 
 </html>

@@ -1,25 +1,32 @@
 document.querySelector("#addbtn").addEventListener("click",()=>{
     window.location.href = "input.html"
 })
-document.querySelector("#btn1").addEventListener("click",()=>{
-    window.location.href = "index2.html"
-})
-document.querySelector("#btn2").addEventListener("click",()=>{
-    window.location.href = "baki.html"
-})
-document.querySelector("#btn3").addEventListener("click",()=>{
-    window.location.href = "jama.html"
-})
+// document.querySelector("#btn1").addEventListener("click",()=>{
+//     window.location.href = "index2.html"
+// })
+// document.querySelector("#btn2").addEventListener("click",()=>{
+//     window.location.href = "baki.html"
+// })
+// document.querySelector("#btn3").addEventListener("click",()=>{
+//     window.location.href = "jama.html"
+// })
 document.querySelector("#editbtn").addEventListener("click",()=>{
+    const editbutton =  document.querySelector("#editbtn")
     const column7 =  document.querySelector("#column7")
     const cdv = localStorage.getItem("column7display");
 
     if(cdv == "block"){
         column7.style.display = "none"        
         localStorage.setItem("column7display", "none")
+        editbutton.style.backgroundColor = "white";
+        editbutton.style.color = "#3489DB";
+        editbutton.style.border = "2px solid #3489DB";
     }else{
         localStorage.setItem("column7display", "block")
         column7.style.display = "block"        
+        editbutton.style.backgroundColor = "#3489DB";
+        editbutton.style.color = "white";
+        editbutton.style.border = "2px solid white";
 
     }
 

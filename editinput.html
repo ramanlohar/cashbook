@@ -128,7 +128,7 @@
 
         <br><br>
         <button type="button" onclick="updateData()">Update</button>
-        <button type="button" onclick="cancelbtn()">Cancel</button>
+        <button type="button" onclick="cancelbtn();">Cancel</button>
     </form>
 
     <script>
@@ -204,7 +204,9 @@ if (editKey) {
     document.getElementById('dateSend').value = data.dateSend;
 }
 
-        
+function cancelbtn() {
+            window.location.href = "index2.html";
+        }
     </script>
 </body>
 </html>

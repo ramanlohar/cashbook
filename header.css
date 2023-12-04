@@ -85,6 +85,7 @@ header #editbtn{
     border-radius: 7px;
     border: white;
     color: #008CBA;
+    border: 2px solid #3489DB;
 }
 .footer {
     background-color: rgb(242, 242, 242,0.9);
@@ -119,12 +120,12 @@ footer label {
     font-size: 16px;
     /* background-color: red; */
     padding: 3px;
-    width: 100px;
+    width: 140px;
     text-align: left;
 }
 footer input{
     font-size: 16px;
-    width: 100px;
+    width: 60px;
     border: none;
     outline: none;
     background-color: transparent;
