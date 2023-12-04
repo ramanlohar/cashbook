@@ -78,9 +78,10 @@
 .sidebarh2{
     position: absolute;
     top: 15px;
-    width: 200px;
+    width: 140px;
     color: white;
     z-index: 0;
+    /* background-color: aqua; */
 
 }
 #crossbtn{
