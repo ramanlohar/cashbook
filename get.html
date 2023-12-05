@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restore Data from Google Sheets</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Restore Data from Google Sheets</h1>
+    <button onclick="restoreFromGoogleSheets()">Restore from Google Sheets</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script>
+        function restoreFromGoogleSheets() {
+            // Replace 'YOUR_GOOGLE_SHEETS_LINK' with the actual link to your Google Sheets
+            var googleSheetsLink = 'https://docs.google.com/spreadsheets/d/1D-cDMTCu7ohbcyBtbDlZbRf0gZl6eUSELfzk5jWDYWo/edit?usp=sharing';
+
+            // Extract the sheet ID from the link
+            var sheetId = googleSheetsLink.match(/\/d\/(.+?)\//)[1];
+
+            // Construct the URL to fetch the data in JSON format
+            var jsonUrl = `https://spreadsheets.google.com/feeds/cells/${sheetId}/1/public/full?alt=json`;
+
+            fetch(jsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    var entries = data.feed.entry;
+                    var jsonData = [];
+
+                    // Convert Google Sheets data to JSON
+                    for (var i = 0; i < entries.length; i += 2) {
+                        var key = entries[i].content.$t;
+                        var value = entries[i + 1].content.$t;
+                        jsonData.push({ [key]: value });
+                    }
+
+                    // Save data to localStorage
+                    jsonData.forEach(function (item) {
+                        for (var key in item) {
+                            localStorage.setItem(key, item[key]);
+                        }
+                    });
+
+                    alert('Data restored from Google Sheets and saved to localStorage.');
+                })
+                .catch(error => {
+                    console.error('Error reading data from Google Sheets:', error);
+                    alert('Error reading data from Google Sheets. Please check the link.');
+                });
+        }
+    </script>
+</body>
+</html>

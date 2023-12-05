@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieve Data from Google Sheets</title>
+    <style>
+        /* Your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Google Sheets Data</h1>
+    <table id="googleSheetsTable">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table content will go here -->
+        </tbody>
+    </table>
+    <button onclick="getDataFromGoogleSheets()">Get Data from Google Sheets</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script>
+        function getDataFromGoogleSheets() {
+            // Get the table body element
+            var tableBody = document.querySelector("#googleSheetsTable tbody");
+
+            // Fetch data from Google Sheets
+            fetch('https://script.google.com/macros/s/AKfycbwQW14GfNiyHc8GW2fNVKgED3rjnbaoGDni-WXBEglWfegBcl_puw1LZt5-syH66znJ/exec')
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing table content
+                    tableBody.innerHTML = "";
+
+                    // Function to load Google Sheets data to the table
+                    data.forEach(item => {
+                        var row = tableBody.insertRow();
+                        var keyCell = row.insertCell(0);
+                        var valueCell = row.insertCell(1);
+
+                        keyCell.textContent = item[0];
+                        valueCell.textContent = item[1];
+                    });
+                })
+                .catch(error => {
+                    console.error('Error retrieving data from Google Sheets:', error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initial load
+            getDataFromGoogleSheets();
+        });
+    </script>
+</body>
+</html>

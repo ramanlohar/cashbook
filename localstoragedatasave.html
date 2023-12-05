@@ -33,15 +33,7 @@
         button {
             margin-top: 10px;
             padding: 10px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
         }
     </style>
 </head>
@@ -61,39 +53,6 @@
     <button onclick="exportToExcel()">Export to Excel</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
     <script>
-        // Function to export localStorage data to Excel
-        function exportToExcel() {
-            var data = [];
-            for (var i = 0; i < localStorage.length; i++) {
-                var key = localStorage.key(i);
-                var value = localStorage.getItem(key);
-                data.push([key, value]);
-            }
-
-            // Read the existing file if it exists
-            var existingWorkbook;
-            try {
-                existingWorkbook = XLSX.readFile("backup.xlsx");
-            } catch (error) {
-                console.warn("No existing file found. Creating a new one.");
-            }
-
-            // Create a new workbook or use the existing one
-            var wb = existingWorkbook || XLSX.utils.book_new();
-            var ws = XLSX.utils.aoa_to_sheet([["Key", "Value"], ...data]);
-
-            // If the existing workbook had a sheet, remove it before appending the new one
-            if (existingWorkbook && existingWorkbook.SheetNames.length > 0) {
-                XLSX.utils.book_remove_sheet(wb, existingWorkbook.SheetNames[0]);
-            }
-
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-            XLSX.writeFile(wb, "backup.xlsx");
-
-            // Notify the user
-            alert('Data exported and saved to Excel (backup.xlsx).');
-        }
-
         document.addEventListener("DOMContentLoaded", function () {
             // Get the table body element
             var tableBody = document.querySelector("#localStorageTable tbody");
@@ -123,6 +82,34 @@
                 console.error("localStorage is not supported in this browser.");
             }
         });
+
+        function exportToExcel() {
+            var data = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                var value = localStorage.getItem(key);
+                data.push([key, value]);
+            }
+
+            var ws = XLSX.utils.aoa_to_sheet([["Key", "Value"], ...data]);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+            // Create the blob containing the Excel file
+            var blob = XLSX.write(wb, { bookType: 'xlsx', type: 'blob' });
+
+            // Create a link element to trigger the download
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'backup.xlsx';
+
+            // Append the link to the body and trigger the click event
+            document.body.appendChild(link);
+            link.click();
+
+            // Remove the link element
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 </html>

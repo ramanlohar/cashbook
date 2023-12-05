@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restore Data from Excel</title>
+    <title>localStorage Data</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -13,42 +13,102 @@
         h1 {
             color: #333;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Restore Data from Excel</h1>
-    <button onclick="restoreFromExcel()">Save Backup to localStorage</button>
+    <h1>localStorage Data</h1>
+    <table id="localStorageTable">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table content will go here -->
+        </tbody>
+    </table>
+    <button onclick="exportToExcel()">Export to Excel</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
     <script>
-        function restoreFromExcel() {
-            // Hardcoding the file name as "backup.xlsx"
-            var fileName = 'backup.xlsx';
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the table body element
+            var tableBody = document.querySelector("#localStorageTable tbody");
 
-            // Check if the file is present in the same folder
-            var filePath = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/' + fileName;
+            // Check if localStorage is supported
+            if (typeof Storage !== "undefined") {
+                // Initial load
+                loadLocalStorageData();
 
-            fetch(filePath)
-                .then(response => response.arrayBuffer())
-                .then(data => {
-                    var workbook = XLSX.read(new Uint8Array(data), { type: 'array' });
+                // Function to load localStorage data to the table
+                function loadLocalStorageData() {
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var value = localStorage.getItem(key);
 
-                    // Assuming the data is in the first sheet
-                    var sheet = workbook.Sheets[workbook.SheetNames[0]];
-                    var jsonData = XLSX.utils.sheet_to_json(sheet);
+                        // Create a table row and cells
+                        var row = tableBody.insertRow();
+                        var keyCell = row.insertCell(0);
+                        var valueCell = row.insertCell(1);
 
-                    // Save data to localStorage
-                    jsonData.forEach(function (row) {
-                        for (var key in row) {
-                            localStorage.setItem(key, row[key]);
-                        }
-                    });
+                        // Set the key and value in the cells
+                        keyCell.textContent = key;
+                        valueCell.textContent = value;
+                    }
+                }
+            } else {
+                console.error("localStorage is not supported in this browser.");
+            }
+        });
 
-                    alert('Data restored from Excel and saved to localStorage.');
-                })
-                .catch(error => {
-                    console.error('Error reading the file:', error);
-                    alert('Error reading the file. Please check if the file "backup.xlsx" is present in the same folder.');
-                });
+        function exportToExcel() {
+            var data = [];
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                var value = localStorage.getItem(key);
+                data.push([key, value]);
+            }
+
+            var ws = XLSX.utils.aoa_to_sheet([["Key", "Value"], ...data]);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+            // Use XLSX.write to generate the Excel file
+            var blob = XLSX.write(wb, { bookType: 'xlsx', mimeType: 'application/octet-stream' });
+
+            // Create a link element to trigger the download
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(new Blob([blob], { type: 'application/octet-stream' }));
+            link.download = 'backup.xlsx';
+
+            // Append the link to the body and trigger the click event
+            document.body.appendChild(link);
+            link.click();
+
+            // Remove the link element
+            document.body.removeChild(link);
         }
     </script>
 </body>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localStorage Data</title>
+    <style>
+        /* Your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>localStorage Data</h1>
+    <table id="localStorageTable">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table content will go here -->
+        </tbody>
+    </table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the table body element
+            var tableBody = document.querySelector("#localStorageTable tbody");
+
+            // Check if localStorage is supported
+            if (typeof Storage !== "undefined") {
+                // Initial load
+                loadLocalStorageData();
+
+                // Function to load localStorage data to the table
+                function loadLocalStorageData() {
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var value = localStorage.getItem(key);
+
+                        // Create a table row and cells
+                        var row = tableBody.insertRow();
+                        var keyCell = row.insertCell(0);
+                        var valueCell = row.insertCell(1);
+
+                        // Set the key and value in the cells
+                        keyCell.textContent = key;
+                        valueCell.textContent = value;
+                    }
+                }
+
+                // Schedule exportToGoogleSheets to run at 12:55 pm every day
+                scheduleExport();
+
+                function scheduleExport() {
+                    var now = new Date();
+                    var scheduledTime = new Date(
+                        now.getFullYear(),
+                        now.getMonth(),
+                        now.getDate(),
+                        12, 55, 0
+                    );
+
+                    var timeUntilScheduled = scheduledTime - now;
+                    if (timeUntilScheduled < 0) {
+                        // If scheduled time has already passed for today, schedule for tomorrow
+                        timeUntilScheduled += 24 * 60 * 60 * 1000;
+                    }
+
+                    setTimeout(function () {
+                        exportToGoogleSheets();
+                        // Reschedule for the next day
+                        scheduleExport();
+                    }, timeUntilScheduled);
+                }
+
+                // Function to export localStorage data to Google Sheets
+                function exportToGoogleSheets() {
+                    var data = [];
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var value = localStorage.getItem(key);
+                        data.push([key, value]);
+                    }
+
+                    // Ensure that data is not empty
+                    if (data.length > 0) {
+                        // Convert the data array to a URL-encoded form
+                        var formData = new URLSearchParams();
+                        formData.append('data', JSON.stringify(data));
+
+                        fetch('https://script.google.com/macros/s/AKfycbyAL0QAAUrKx9aCzxKNNdJ-232_I5lm3AUf8ck6drDLflzZySN_D5Ho9AVtIFamermM/exec', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: formData.toString(),  // Convert the form data to a string
+                        })
+                            .then(response => response.text())
+                            .then(result => {
+                                // Handle the response from the server
+                                console.log(result);
+                            })
+                            .catch(error => {
+                                console.error('Error exporting data to Google Sheets:', error);
+                            });
+                    } else {
+                        console.error('Error exporting data to Google Sheets: Empty data array.');
+                    }
+                }
+            } else {
+                console.error("localStorage is not supported in this browser.");
+            }
+        });
+    </script>
+</body>
+</html>
