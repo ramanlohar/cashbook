@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restore Data from Excel</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Restore Data from Excel</h1>
+    <button onclick="restoreFromExcel()">Save Backup to localStorage</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script>
+        function restoreFromExcel() {
+            // Hardcoding the file name as "backup.xlsx"
+            var fileName = 'backup.xlsx';
+
+            // Check if the file is present in the same folder
+            var filePath = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/' + fileName;
+
+            fetch(filePath)
+                .then(response => response.arrayBuffer())
+                .then(data => {
+                    var workbook = XLSX.read(new Uint8Array(data), { type: 'array' });
+
+                    // Assuming the data is in the first sheet
+                    var sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    var jsonData = XLSX.utils.sheet_to_json(sheet);
+
+                    // Save data to localStorage
+                    jsonData.forEach(function (row) {
+                        for (var key in row) {
+                            localStorage.setItem(key, row[key]);
+                        }
+                    });
+
+                    alert('Data restored from Excel and saved to localStorage.');
+                })
+                .catch(error => {
+                    console.error('Error reading the file:', error);
+                    alert('Error reading the file. Please check if the file "backup.xlsx" is present in the same folder.');
+                });
+        }
+    </script>
+</body>
+</html>

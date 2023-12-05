@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>localStorage Data</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>localStorage Data</h1>
+    <table id="localStorageTable">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table content will go here -->
+        </tbody>
+    </table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the table body element
+            var tableBody = document.querySelector("#localStorageTable tbody");
+
+            // Check if localStorage is supported
+            if (typeof Storage !== "undefined") {
+                // Function to export localStorage data to Excel
+                function exportToExcel() {
+                    var data = [];
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var value = localStorage.getItem(key);
+                        data.push([key, value]);
+                    }
+
+                    var ws = XLSX.utils.aoa_to_sheet([["Key", "Value"], ...data]);
+                    var wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+                    XLSX.writeFile(wb, "backup.xlsx");
+                }
+
+                // Initial load
+                loadLocalStorageData();
+
+                // Set interval to export to Excel every 24 hours
+                setInterval(exportToExcel, 24 * 60 * 60 * 1000);
+
+                // Function to load localStorage data to the table
+                function loadLocalStorageData() {
+                    for (var i = 0; i < localStorage.length; i++) {
+                        var key = localStorage.key(i);
+                        var value = localStorage.getItem(key);
+
+                        // Create a table row and cells
+                        var row = tableBody.insertRow();
+                        var keyCell = row.insertCell(0);
+                        var valueCell = row.insertCell(1);
+
+                        // Set the key and value in the cells
+                        keyCell.textContent = key;
+                        valueCell.textContent = value;
+                    }
+                }
+            } else {
+                console.error("localStorage is not supported in this browser.");
+            }
+        });
+    </script>
+</body>
+</html>
