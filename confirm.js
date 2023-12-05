@@ -14,11 +14,7 @@ confirmbox.innerHTML = `
 confirmmessage.appendChild(confirmbox);
 
 // JavaScript to show/hide the confirmation dialog
-document.getElementById('yesbutton').addEventListener('click', function () {
-    // Handle 'Yes' button click
-    // ... your delete logic here ...
-    hideConfirmationDialog();
-});
+
 
 document.getElementById('cancelbutton').addEventListener('click', function () {
     // Handle 'Cancel' button click
