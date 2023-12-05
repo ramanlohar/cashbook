@@ -35,6 +35,9 @@ sidebardiv.innerHTML = `
     <label>Font - Size : </label>
     <input id="fontsizeoflis" type="range" name="volume" min="10" max="20" value="">
     <input type="text" id="fontsizevalue" readonly>
+    <br>
+    <br>
+    <button id="generateExcelBtn">Generate Excel</button>
 
 
 `;
