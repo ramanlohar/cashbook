@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Conversion to JSON</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    textarea, button {
+      margin-bottom: 10px;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <label for="dataInput">Paste Data:</label>
+  <textarea id="dataInput" rows="4" cols="50"></textarea>
+  <br>
+
+  <button onclick="convertToJSON()">Convert to JSON</button>
+
+  <div id="output"></div>
+
+  <script>
+    function convertToJSON() {
+      // Get the input value
+      const inputData = document.getElementById("dataInput").value;
+
+      // Split the input into lines and process each line
+      const lines = inputData.split("\t");
+
+      const jsonData = [];
+
+      lines.forEach(line => {
+        // Extract key and value using a regular expression
+        const match = line.match(/\{key=([^,]+),\s*value=([^}]+)\}/);
+
+        if (match) {
+          // Create a JSON object and add it to the array
+          const entry = {
+            key: match[1],
+            value: match[2]
+          };
+          jsonData.push(entry);
+        } else {
+          // Try to parse as JSON
+          try {
+            const jsonEntry = JSON.parse(line);
+            jsonData.push(jsonEntry);
+          } catch (error) {
+            console.error("Unable to parse line:", line);
+          }
+        }
+      });
+
+      // Display the converted JSON data
+      const outputDiv = document.getElementById("output");
+      outputDiv.textContent = JSON.stringify(jsonData, null, 2);
+    }
+    const inputData = `your provided data here`;
+const lines = inputData.split("\t");
+
+const jsonData = [];
+
+lines.forEach(line => {
+  const match = line.match(/\{key=([^,]+),\s*value=([^}]+)\}/);
+
+  if (match) {
+    const entry = {
+      key: match[1],
+      value: match[2]
+    };
+    jsonData.push(entry);
+  } else {
+    try {
+      const jsonEntry = JSON.parse(line);
+      jsonData.push(jsonEntry);
+    } catch (error) {
+      console.error("Unable to parse line:", line);
+    }
+  }
+});
+
+console.log(JSON.stringify(jsonData, null, 2));
+
+  </script>
+
+</body>
+</html>

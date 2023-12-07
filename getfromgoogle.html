@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieve Data from Google Sheets</title>
+    <style>
+        /* Your CSS styles here */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Google Sheets Data</h1>
+    <table id="googleSheetsTable">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table content will go here -->
+        </tbody>
+    </table>
+    <div id="dataDisplay"></div>
+    <button onclick="getDataFromGoogleSheets()">Get Data from Google Sheets</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script>
+        function getDataFromGoogleSheets() {
+            var tableBody = document.querySelector("#googleSheetsTable tbody");
+            var dataDisplay = document.getElementById("dataDisplay");
+
+            fetch('https://script.google.com/macros/s/AKfycbzAjGiNLdblz4ZnQMoZYqdLTBpIomogOfe7pE1d9CJIbCfYdpwxPiJ2efoadK1yAEat/exec')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Retrieved data:', data);
+
+                    tableBody.innerHTML = "";
+                    dataDisplay.innerHTML = ""; // Clear previous data display
+
+                    data.forEach(item => {
+                        // Update the table
+                        var row = tableBody.insertRow();
+                        var keyCell = row.insertCell(0);
+                        var valueCell = row.insertCell(1);
+                        keyCell.textContent = item.key;
+                        valueCell.textContent = item.value;
+
+                        // Update the data display div
+                        dataDisplay.innerHTML += `<p><strong>${item.key}:</strong> ${item.value}</p>`;
+                    });
+
+                    // Save data to local storage
+                    localStorage.setItem('googleSheetsData', JSON.stringify(data));
+                })
+                .catch(error => {
+                    console.error('Error retrieving data from Google Sheets:', error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if data exists in local storage on page load
+            var storedData = localStorage.getItem('googleSheetsData');
+            if (storedData) {
+                var parsedData = JSON.parse(storedData);
+                displayData(parsedData);
+            } else {
+                getDataFromGoogleSheets();
+            }
+        });
+
+        function displayData(data) {
+            var tableBody = document.querySelector("#googleSheetsTable tbody");
+            var dataDisplay = document.getElementById("dataDisplay");
+
+            tableBody.innerHTML = "";
+            dataDisplay.innerHTML = ""; // Clear previous data display
+
+            data.forEach(item => {
+                // Update the table
+                var row = tableBody.insertRow();
+                var keyCell = row.insertCell(0);
+                var valueCell = row.insertCell(1);
+                keyCell.textContent = item.key;
+                valueCell.textContent = item.value;
+
+                // Update the data display div
+                dataDisplay.innerHTML += `<p><strong>${item.key}:</strong> ${item.value}</p>`;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Filtering</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input, button {
+      margin-bottom: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <label for="dataInput">Paste Data:</label>
+  <textarea id="dataInput" rows="4" cols="50"></textarea>
+  <br>
+
+  <button onclick="filterData()">Filter Data</button>
+  <button onclick="createLocalStorage()">Create LocalStorage</button>
+
+  <table id="dataTable">
+    <!-- Table will be populated dynamically -->
+  </table>
+
+  <script>
+    function convertToJSON() {
+      // Get the input value
+      const inputData = document.getElementById("dataInput").value;
+
+      // Split the input into lines and process each line
+      const lines = inputData.split("\n");
+      const jsonData = [];
+
+      lines.forEach(line => {
+        // Extract key and value using a regular expression
+        const match = line.match(/\{key=([^,]+),\s*value=([^}]+)\}/);
+
+        if (match) {
+          // Create a JSON object and add it to the array
+          const entry = {
+            key: match[1],
+            value: match[2]
+          };
+          jsonData.push(entry);
+        }
+      });
+
+      // Display the converted JSON data
+      alert(JSON.stringify(jsonData, null, 2));
+    }
+
+    
+    function filterData() {
+      // Get the input value
+      const inputData = document.getElementById("dataInput").value;
+
+      // Parse the input as JSON
+      let jsonData;
+      try {
+        jsonData = JSON.parse(inputData);
+      } catch (error) {
+        alert("Invalid JSON input");
+        return;
+      }
+
+      // Create a table to display the filtered data
+      const table = document.getElementById("dataTable");
+      table.innerHTML = "<tr><th>Key</th><th>Value</th></tr>";
+
+      // Iterate through the JSON data and populate the table
+      for (const entry of jsonData) {
+        const row = table.insertRow();
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+
+        cell1.textContent = entry.key;
+        cell2.textContent = entry.value;
+      }
+    }
+
+    function createLocalStorage() {
+      // Get the input value
+      const inputData = document.getElementById("dataInput").value;
+
+      // Parse the input as JSON
+      let jsonData;
+      try {
+        jsonData = JSON.parse(inputData);
+      } catch (error) {
+        alert("Invalid JSON input");
+        return;
+      }
+
+      // Iterate through the JSON data and set items in local storage
+      for (const entry of jsonData) {
+        localStorage.setItem(entry.key, entry.value);
+      }
+
+      alert("LocalStorage items created successfully");
+    }
+  </script>
+
+</body>
+</html>

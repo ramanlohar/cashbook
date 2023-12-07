@@ -1,0 +1,28 @@
+function getDataFromGoogleSheets() {
+    // Get the table body element
+    var tableBody = document.querySelector("#googleSheetsTable tbody");
+
+    // Fetch data from Google Sheets
+    fetch('https://script.google.com/macros/s/AKfycbwQW14GfNiyHc8GW2fNVKgED3rjnbaoGDni-WXBEglWfegBcl_puw1LZt5-syH66znJ/exec')
+        .then(response => response.json())
+        .then(data => {
+            // Clear existing table content
+            tableBody.innerHTML = "";
+
+            // Function to load Google Sheets data to the table
+            data.forEach(item => {
+                var row = tableBody.insertRow();
+                var keyCell = row.insertCell(0);
+                var valueCell = row.insertCell(1);
+
+                keyCell.textContent = item.key;
+                valueCell.textContent = item.value;
+            });
+        })
+        .catch(error => {
+            console.error('Error retrieving data from Google Sheets:', error);
+        });
+}
+https://script.google.com/macros/s/AKfycbwQW14GfNiyHc8GW2fNVKgED3rjnbaoGDni-WXBEglWfegBcl_puw1LZt5-syH66znJ/exec
+
+https://script.google.com/macros/s/AKfycbzAjGiNLdblz4ZnQMoZYqdLTBpIomogOfe7pE1d9CJIbCfYdpwxPiJ2efoadK1yAEat/exec
