@@ -4,9 +4,11 @@ const sidebar = document.getElementById("sidebar");
 const sidebardiv = document.createElement("div");
 sidebardiv.className = "sidebardiv";
 sidebardiv.innerHTML = `
+    <div id="sidebar_heading">
     <a id="crossbtn" href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <h2 class="sidebarh2">Cashbook Orders</h2>
     <br>
+    </div>
     <label for="filterType">Filter Type:</label>
     <br>
     <select id="filterType" 
@@ -27,10 +29,10 @@ sidebardiv.innerHTML = `
     </select>
     <div id="additionalFilter"></div>
     <br>
-    <p id="filterjama">Deposit Amount<p>
-    <p id="filterbaki">Remaining Amount<p>
-    <p id="filterpandingsend">Panding Send<p>
-    <p id="filterpandingreceive">Panding Receive<p>
+    <p class="filterp" id="filterjama">Deposit Amount<p>
+    <p class="filterp" id="filterbaki">Remaining Amount<p>
+    <p class="filterp" id="filterpandingsend">Panding Send<p>
+    <p class="filterp" id="filterpandingreceive">Panding Receive<p>
     <br>
     <label>Font - Size : </label>
     <input id="fontsizeoflis" type="range" name="volume" min="10" max="20" value="">

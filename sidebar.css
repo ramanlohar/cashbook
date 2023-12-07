@@ -3,6 +3,11 @@
     border: none;
     color: white;
 }
+#sidebar_heading{
+    background-color: #3489DB;
+    height: 94px;
+    margin: 0 -20px 10px -20px;
+}
 #sidebar {
     height: 100%;
     width: 0;
@@ -10,18 +15,18 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #3489DB; /* Top background color */
+    background-color: #ffffff; /* Top background color */
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 94px;
+    /* padding-top: 94px; */
 }
 
 #sidebar .sidebardiv {
     background-color: white; /* Sidebar background color */
     height: 100%;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     /* margin-top: 14px; */
-    /* margin-bottom: 0px; */
+    /* margin-bottom: 20px; */
 }
 
 #sidebar a {
@@ -64,15 +69,15 @@
     margin: 10px 0;
 }
 
-#filterjama, #filterbaki {
+/* #filterjama, #filterbaki {
     cursor: pointer;
     color: #3489DB;
     margin: 10px 0;
-}
+} */
 
-#filterjama:hover, #filterbaki:hover {
+/* #filterjama:hover, #filterbaki:hover {
     text-decoration: underline;
-}
+} */
 
 /* Add your additional styling here as needed */
 .sidebarh2{
@@ -92,4 +97,21 @@
     border: none;
     text-align: center;
     font-size: 16px;
+}
+.filterp{
+    background-color: #3489DB;
+    margin: 5px;
+    width: 170px;
+    cursor: pointer;
+    /* color: #3489DB; */
+    border-radius: 5px;
+    padding: 8px;
+    text-align: start;
+    color: white;
+    text-decoration: none;
+    text-transform: none;
+}
+.filterp:hover{
+    color: #ffffff;
+    background-color: rgb(111, 173, 217);
 }

@@ -153,3 +153,7 @@ footer input{
 #column7{
     display: none;
 }
+#column0{
+    min-width: 60px;
+    max-width: 150px;
+}

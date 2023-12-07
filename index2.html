@@ -47,7 +47,7 @@
             <ul id="inputDataList1"></ul>
         </div>
         <div id="column2" class="column">
-            <label for="">Contact</label>
+            <label for="">Contact No.</label>
             <ul id="inputDataList2"></ul>
         </div>
         <div id="column3" class="column">
@@ -72,12 +72,12 @@
             <ul id="inputDataList9"></ul>
         </div>
         <div id="column10" class="column">
-            <label for="">Money</label>
+            <label for="">Amount</label>
             <ul id="inputDataList10"></ul>
         </div>
         <!-- 10000000000000000000000000000 -->
         <div id="column6" class="column">
-            <label for="">J/B</label>
+            <label for="">R/D</label>
             <ul id="inputDataList6"></ul>
         </div>
     </div>
@@ -120,8 +120,8 @@
             appendToList("inputDataList2", data.contactNo);
             appendToList("inputDataList3", `${data.district}, ${data.block}, ${data.panchayat}`);
             appendToList("inputDataList4", data.year);
-            appendToList("inputDataList5", data.bookType);
-            appendToList("inputDataList6", data.tpceType);
+            appendToList("inputDataList5", replace(data.bookType));
+            appendToList("inputDataList6", replace(data.tpceType));
             appendToList("jamaDataList7", ``, key);
             appendToList("inputDataList8", formatDate(data.dateReceive));
             appendToList("inputDataList9", formatDate(data.dateSend));
@@ -186,11 +186,27 @@
         }
     }
 
-    
+    function replace(value) {
+    if (value == "Mnarega") {
+        return `NREGA`;
+    }
+    if(value == "Panchayat"){
+        return `Panchayat`;
+    }
+    if (value == "jama") {
+        return `Deposit`;
+    }
+    if (value == "baki") {
+        return `Remaining`;
+    }
+}
+
+  
 </script>
 <script src="script.js"></script>
 <script src="sidebar.js"></script>
 <script src="confirm.js"></script>
 <script src="genrateexcel.js"></script>
+<script src="replace.js"></script>
 
 </html>
