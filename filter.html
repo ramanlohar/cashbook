@@ -27,7 +27,7 @@
             <button id="menubtn" style="font-size:30px;cursor:pointer" onclick="openNav()">☰</button>
         </div>
         <div>
-            <h2>Home</h2>
+            <h2>Radheshyam Lohar</h2>
         </div>
         <div>
             <button id="editbtn">Edit</button>
@@ -180,8 +180,8 @@
                     appendToList("jamaDataList5", replace(data.bookType), key);
                     appendToList("jamaDataList6", replace(data.tpceType), key);
                     appendToList("jamaDataList7", '', key); // I left this as an empty string, update as needed
-                    appendToList("inputDataList8", formatDate(data.dateReceive));
-                    appendToList("inputDataList9", formatDate(data.dateSend));
+                    appendToList("inputDataList8", formatDate(data.dateReceive),key);
+                    appendToList("inputDataList9", formatDate(data.dateSend),key);
                     appendToList("inputDataList10", data.price, key);
 
                     index++;
@@ -194,6 +194,8 @@
             var listItem = document.createElement("li");
             listItem.textContent = data;
             inputDataList.appendChild(listItem);
+            listItem.id = key;
+      listItem.classList.add(key);
 
             // Add an Edit button to each list item in the "EDIT" column
             if (listId === "jamaDataList7") {
@@ -223,6 +225,24 @@
                 listItem.appendChild(editButton);
                 listItem.appendChild(deletButton);
             }
+
+            listItem.addEventListener("click", () => {
+        // Remove the previous highlights
+        var highlightedRows = document.querySelectorAll(".highlight-green");
+        highlightedRows.forEach((row) => {
+          row.classList.remove("highlight-green");
+        });
+
+        // Highlight the clicked row
+        var lihighlight = document.querySelectorAll("." + key);
+        lihighlight.forEach(function (element) {
+          if (element.classList.contains("highlight-green")) {
+            element.classList.remove("highlight-green");
+          } else {
+            element.classList.add("highlight-green");
+          }
+        });
+      });
 
             inputDataList.appendChild(listItem);
         }

@@ -81,6 +81,8 @@ header {
 
 header h2 {
     margin: 0;
+    font-size: 20px;
+    /* background-color: #ff3204; */
 }
 header #editbtn{
     background-color: #ffffff;    
@@ -158,5 +160,23 @@ footer input{
     max-width: 150px;
 }
 #column3{
-    min-width:200px
+    min-width:250px
+}
+.highlight-green {
+    background-color: rgba(160, 225, 255, 0.414);
+     /* !important */
+    /* color: white; */
+     /* You can adjust the text color */
+}
+#column4{
+    min-width: 100px;
+}
+#column8,#column9,#column5{
+    min-width: 100px;
+}
+#column10{
+    min-width: 80px;
+}
+#column6{
+   min-width: 100px;
 }
