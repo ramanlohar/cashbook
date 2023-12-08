@@ -133,11 +133,45 @@ input[type="date"] {
         <input type="date" id="dateSend" name="dateSend" required>
 
         <br><br>
-        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="button" onclick="submitFormcheck();">Submit</button>
         <button type="button" onclick="cancelbtn()">Cancel</button>
     </form>
 
     <script>
+            document.addEventListener('DOMContentLoaded', function () {
+        // Get the current date in the format YYYY-MM-DD
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; // January is 0!
+        var yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        // Set the value of dateReceive
+        document.getElementById('dateReceive').value = today;
+    });
+    
+        function submitFormcheck() {
+            var dateReceive = document.getElementById('dateReceive');
+            if (dateReceive.value == "") {
+                dateReceive.style.backgroundColor="red";
+                setTimeout(() => {
+                    dateReceive.style.backgroundColor="white";
+                    
+                }, 100);
+            }
+            else{
+                submitForm();
+            }            
+        }
          function submitForm() {
             // Get form values
             var name = document.getElementById('name').value;

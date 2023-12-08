@@ -104,7 +104,11 @@
 
     function getAllInputData() {
         // Get all localStorage keys and sort them
-        var keys = Object.keys(localStorage).filter(key => key.startsWith("CBDATA_")).sort();
+        var keys = Object.keys(localStorage).filter(key => key.startsWith("CBDATA_")).sort((a, b) => {
+            var dateA = new Date(JSON.parse(localStorage.getItem(a)).dateReceive);
+            var dateB = new Date(JSON.parse(localStorage.getItem(b)).dateReceive);
+            return dateB - dateA;
+        });
 
         // Loop through sorted localStorage keys
         var index = 1;
@@ -187,21 +191,21 @@
     }
 
     function replace(value) {
-    if (value == "Mnarega") {
-        return `NREGA`;
+        if (value == "Mnarega") {
+            return `NREGA`;
+        }
+        if (value == "Panchayat") {
+            return `Panchayat`;
+        }
+        if (value == "jama") {
+            return `Deposit`;
+        }
+        if (value == "baki") {
+            return `Remaining`;
+        }
     }
-    if(value == "Panchayat"){
-        return `Panchayat`;
-    }
-    if (value == "jama") {
-        return `Deposit`;
-    }
-    if (value == "baki") {
-        return `Remaining`;
-    }
-}
 
-  
+
 </script>
 <script src="script.js"></script>
 <script src="sidebar.js"></script>
