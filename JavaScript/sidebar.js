@@ -22,8 +22,8 @@ sidebardiv.innerHTML = `
         <option value="district">District</option>
         <option value="name">Name</option>
         <option value="panchayat">Panchayat</option>
-        <option value="price">Price</option>
-        <option value="tpceType">TPCE Type</option>
+        <option value="price">Amount</option>
+        <option value="tpceType">Amount Type</option>
         <option value="year">Year</option>
     </select>
     <div id="additionalFilter"></div>
@@ -55,13 +55,21 @@ function closeNav() {
 
 function showFilterOptions() {
   var filterType = document.getElementById("filterType").value;
+
   var additionalFilterDiv = document.getElementById("additionalFilter");
 
   // Clear previous options
   additionalFilterDiv.innerHTML = "";
 
   if (filterType !== "") {
-    const selectLabel = filterType;
+    var selectLabel = filterType;
+    if(selectLabel == "tpceType"){
+        selectLabel = "Amount Type";
+    }
+    if(selectLabel == "price"){
+        selectLabel = "Amount";
+    }
+
     additionalFilterDiv.innerHTML = `<label for="${selectLabel}">${selectLabel}:</label>
             <select id="secondselect">
                 <option value="">Select</option>
@@ -109,7 +117,18 @@ function populateDateOptions(selectId, filterType) {
       if (filterType == "dateReceive" || filterType == "dateSend") {
         option.textContent = formatDate(data[filterType]);
       } else {
-        option.textContent = data[filterType];
+        if (data[filterType] == "Mnarega") {
+            
+            option.textContent = "NREGA";
+        }else if(data[filterType] == "baki"){
+            option.textContent = "Remaining";
+
+        }else if(data[filterType] == "jama"){
+            option.textContent = "Deposit";
+        }else{
+
+            option.textContent = data[filterType];
+        }
       }
 
       selectElement.appendChild(option);
