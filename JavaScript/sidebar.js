@@ -1,4 +1,3 @@
-
 const sidebar = document.getElementById("sidebar");
 
 const sidebardiv = document.createElement("div");
@@ -45,99 +44,110 @@ sidebardiv.innerHTML = `
 `;
 
 function openNav() {
-    document.getElementById("sidebar").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
+  document.getElementById("sidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
 }
 
 function closeNav() {
-    document.getElementById("sidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
+  document.getElementById("sidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
 }
 
 function showFilterOptions() {
-    var filterType = document.getElementById("filterType").value;
-    var additionalFilterDiv = document.getElementById("additionalFilter");
+  var filterType = document.getElementById("filterType").value;
+  var additionalFilterDiv = document.getElementById("additionalFilter");
 
-    // Clear previous options
-    additionalFilterDiv.innerHTML = "";
+  // Clear previous options
+  additionalFilterDiv.innerHTML = "";
 
-    if (filterType !== "") {
-        const selectLabel = filterType;
-        additionalFilterDiv.innerHTML = `<label for="${selectLabel}">${selectLabel}:</label>
+  if (filterType !== "") {
+    const selectLabel = filterType;
+    additionalFilterDiv.innerHTML = `<label for="${selectLabel}">${selectLabel}:</label>
             <select id="secondselect">
                 <option value="">Select</option>
             </select>`;
-        populateDateOptions("secondselect", filterType);
+    populateDateOptions("secondselect", filterType);
 
-        // const filtersecondTypevalue = document.getElementById("secondselect");
+    // const filtersecondTypevalue = document.getElementById("secondselect");
 
-        // localStorage.setItem("filtervalue", filtersecondTypevalue.value);
-    }
+    // localStorage.setItem("filtervalue", filtersecondTypevalue.value);
+  }
 }
 
 function populateDateOptions(selectId, filterType) {
-    var selectElement = document.getElementById(selectId);
+  var selectElement = document.getElementById(selectId);
 
-    // Get all localStorage keys and sort them
-    var keys = Object.keys(localStorage).filter(key => key.startsWith("CBDATA_")).sort((a, b) => {
-        var dateA = new Date(JSON.parse(localStorage.getItem(a)).dateReceive);
-        var dateB = new Date(JSON.parse(localStorage.getItem(b)).dateReceive);
-        return dateB - dateA;
-    });;
-    
-    var keys = Object.keys(localStorage).filter(key => key.startsWith("CBDATA_")).sort((a, b) => {
-        var nameA = JSON.parse(localStorage.getItem(a)).name.toLowerCase();
-        var nameB = JSON.parse(localStorage.getItem(b)).name.toLowerCase();
-        return nameA.localeCompare(nameB);
+  // Get all localStorage keys and sort them
+  var keys = Object.keys(localStorage)
+    .filter((key) => key.startsWith("CBDATA_"))
+    .sort((a, b) => {
+      var valueA = JSON.parse(localStorage.getItem(a))[filterType];
+      var valueB = JSON.parse(localStorage.getItem(b))[filterType];
+
+      // Handle different data types if needed
+      if (typeof valueA === "string" && typeof valueB === "string") {
+        //   alert("not string")
+        return valueA.localeCompare(valueB);
+      } else {
+        // Fallback to default comparison if the data types are not strings
+        return valueB - valueA;
+      }
     });
 
-    var addedValues = {}; // Keep track of values that have already been added
+  var addedValues = {}; // Keep track of values that have already been added
 
-    for (var i = 0; i < keys.length; i++) {
-        var key = keys[i];
-        var data = JSON.parse(localStorage.getItem(key));
-        var dateValue = filterType === "dateReceive" ? data.dateReceive : "";
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var data = JSON.parse(localStorage.getItem(key));
+    var dateValue = filterType === "dateReceive" ? data.dateReceive : "";
 
-        // Check if the value is empty or has already been added, if yes, skip it
-        if (data[filterType] && !addedValues[data[filterType]]) {
-            var option = document.createElement("option");
-            option.value = data[filterType];
+    // Check if the value is empty or has already been added, if yes, skip it
+    if (data[filterType] && !addedValues[data[filterType]]) {
+      var option = document.createElement("option");
+      option.value = data[filterType];
 
-            if (filterType == "dateReceive" || filterType == "dateSend") {
-                option.textContent = formatDate(data[filterType]);
-            } else {
-                option.textContent = data[filterType];
-            }
+      if (filterType == "dateReceive" || filterType == "dateSend") {
+        option.textContent = formatDate(data[filterType]);
+      } else {
+        option.textContent = data[filterType];
+      }
 
-            selectElement.appendChild(option);
+      selectElement.appendChild(option);
 
-            // Mark the value as added
-            addedValues[data[filterType]] = true;
-        }
+      // Mark the value as added
+      addedValues[data[filterType]] = true;
     }
+  }
 
-    const filtersecondTypevalue = document.getElementById("secondselect");
-    filtersecondTypevalue.addEventListener("input", () => {
-        localStorage.setItem("filtervalue", filtersecondTypevalue.value);
+  const filtersecondTypevalue = document.getElementById("secondselect");
+  filtersecondTypevalue.addEventListener("input", () => {
+    localStorage.setItem("filtervalue", filtersecondTypevalue.value);
 
-        if (filtersecondTypevalue.value !== "") {
-            window.location.href = "filter.html";
-        }
-    });
+    if (filtersecondTypevalue.value !== "") {
+      window.location.href = "filter.html";
+    }
+  });
 }
 
 
-function formatDate(dateString) {
-    if (dateString == "" || dateString == "Panding..") {
-        return `Panding...`;
-    } else {
-        var date = new Date(dateString);
-        var day = date.getDate().toString().padStart(2, '0');
-        var month = (date.getMonth() + 1).toString().padStart(2, '0');
-        var year = date.getFullYear();
 
-        return `${day}-${month}-${year}`;
-    }
+
+
+
+
+
+
+function formatDate(dateString) {
+  if (dateString == "" || dateString == "Panding..") {
+    return `Panding...`;
+  } else {
+    var date = new Date(dateString);
+    var day = date.getDate().toString().padStart(2, "0");
+    var month = (date.getMonth() + 1).toString().padStart(2, "0");
+    var year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  }
 }
 
 // Append the sidebardiv to the sidebar element
@@ -145,68 +155,68 @@ sidebar.appendChild(sidebardiv);
 
 const filterTypevalue = document.querySelector("#filterType");
 filterTypevalue.addEventListener("input", () => {
-    // Store both filterType and select value in localStorage
-    localStorage.setItem("datafiltervalue", filterTypevalue.value);
+  // Store both filterType and select value in localStorage
+  localStorage.setItem("datafiltervalue", filterTypevalue.value);
 
-    const firstinputvalue  = localStorage.getItem("datafiltervalue");
+  const firstinputvalue = localStorage.getItem("datafiltervalue");
 
-    if(firstinputvalue == "ALL"){
-        window.location.href = "index2.html"
-        // alert("message")
-    }
-
+  if (firstinputvalue == "ALL") {
+    window.location.href = "index2.html";
+    // alert("message")
+  }
 });
-document.getElementById("filterpandingsend").addEventListener("click",()=>{
-    localStorage.setItem("datafiltervalue", "dateSend");
-    localStorage.setItem("filtervalue", "");
-    window.location.href = "filter.html"
-})
+document.getElementById("filterpandingsend").addEventListener("click", () => {
+  localStorage.setItem("datafiltervalue", "dateSend");
+  localStorage.setItem("filtervalue", "");
+  window.location.href = "filter.html";
+});
 // filterpandingreceive
 
-document.getElementById("filterpandingreceive").addEventListener("click",()=>{
+document
+  .getElementById("filterpandingreceive")
+  .addEventListener("click", () => {
     localStorage.setItem("datafiltervalue", "dateReceive");
     localStorage.setItem("filtervalue", "");
-    window.location.href = "filter.html"
-})
+    window.location.href = "filter.html";
+  });
 
-document.getElementById("filterjama").addEventListener("click",()=>{
-    localStorage.setItem("datafiltervalue", "tpceType");
-    localStorage.setItem("filtervalue", "jama");
-    window.location.href = "filter.html"
-})
-document.getElementById("filterbaki").addEventListener("click",()=>{
-    localStorage.setItem("datafiltervalue", "tpceType");
-    localStorage.setItem("filtervalue", "baki");
-    window.location.href = "filter.html"
-})
+document.getElementById("filterjama").addEventListener("click", () => {
+  localStorage.setItem("datafiltervalue", "tpceType");
+  localStorage.setItem("filtervalue", "jama");
+  window.location.href = "filter.html";
+});
+document.getElementById("filterbaki").addEventListener("click", () => {
+  localStorage.setItem("datafiltervalue", "tpceType");
+  localStorage.setItem("filtervalue", "baki");
+  window.location.href = "filter.html";
+});
 
 const fontsizeoflis = document.querySelector("#fontsizeoflis");
 const fontsizevalue = document.querySelector("#fontsizevalue");
 
 fontsizeoflis.addEventListener("input", () => {
-    const selectedFontSize = fontsizeoflis.value;
-    localStorage.setItem("fonsizeofli", selectedFontSize);
+  const selectedFontSize = fontsizeoflis.value;
+  localStorage.setItem("fonsizeofli", selectedFontSize);
 
-    var allElements = document.querySelectorAll('li');
-    allElements.forEach(function(element) {
-        element.style.fontSize = `${selectedFontSize}px`;
-    });
+  var allElements = document.querySelectorAll("li");
+  allElements.forEach(function (element) {
+    element.style.fontSize = `${selectedFontSize}px`;
+  });
 
-    fontsizevalue.value = `${selectedFontSize}px`;
+  fontsizevalue.value = `${selectedFontSize}px`;
 });
 
 const getfontsize = localStorage.getItem("fonsizeofli");
 
 if (getfontsize == null) {
-    fontsizeoflis.value = 16;
-    fontsizevalue.value = "16px";
+  fontsizeoflis.value = 16;
+  fontsizevalue.value = "16px";
 } else {
-    fontsizeoflis.value = Number(getfontsize);
-    fontsizevalue.value = `${getfontsize}px`;
+  fontsizeoflis.value = Number(getfontsize);
+  fontsizevalue.value = `${getfontsize}px`;
 }
 
-var allElements = document.querySelectorAll('li');
-allElements.forEach(function(element) {
-    element.style.fontSize = `${fontsizeoflis.value}px`;
+var allElements = document.querySelectorAll("li");
+allElements.forEach(function (element) {
+  element.style.fontSize = `${fontsizeoflis.value}px`;
 });
-

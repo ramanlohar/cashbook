@@ -219,7 +219,7 @@ function replace(value) {
     if (value == "Panchayat") {
         return `Panchayat`;
     }
-    if (value == "sevenregister") {
+    if (value == "7 Register") {
         return `7 Register`;
     }
     if (value == "jama") {
