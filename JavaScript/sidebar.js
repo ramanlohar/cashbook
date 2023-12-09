@@ -31,7 +31,7 @@ sidebardiv.innerHTML = `
     <p class="filterp" id="filterjama">Deposit Amount<p>
     <p class="filterp" id="filterbaki">Remaining Amount<p>
     <p class="filterp" id="filterpandingsend">Panding Send<p>
-    <p class="filterp" id="filterpandingreceive">Panding Receive<p>
+    <p class="filterp" id="filtertoday">Today<p>
     <br>
     <label>Font - Size : </label>
     <input id="fontsizeoflis" type="range" name="volume" min="10" max="20" value="">
@@ -173,10 +173,26 @@ document.getElementById("filterpandingsend").addEventListener("click", () => {
 // filterpandingreceive
 
 document
-  .getElementById("filterpandingreceive")
+  .getElementById("filtertoday")
   .addEventListener("click", () => {
+    // Get the current date in the format YYYY-MM-DD
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; // January is 0!
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+
     localStorage.setItem("datafiltervalue", "dateReceive");
-    localStorage.setItem("filtervalue", "");
+    localStorage.setItem("filtervalue", today);
     window.location.href = "filter.html";
   });
 
