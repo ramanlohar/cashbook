@@ -79,7 +79,17 @@ function populateDateOptions(selectId, filterType) {
     var selectElement = document.getElementById(selectId);
 
     // Get all localStorage keys and sort them
-    var keys = Object.keys(localStorage).filter(key => key.startsWith("CBDATA_")).sort();
+    var keys = Object.keys(localStorage).filter(key => key.startsWith("CBDATA_")).sort((a, b) => {
+        var dateA = new Date(JSON.parse(localStorage.getItem(a)).dateReceive);
+        var dateB = new Date(JSON.parse(localStorage.getItem(b)).dateReceive);
+        return dateB - dateA;
+    });;
+    
+    var keys = Object.keys(localStorage).filter(key => key.startsWith("CBDATA_")).sort((a, b) => {
+        var nameA = JSON.parse(localStorage.getItem(a)).name.toLowerCase();
+        var nameB = JSON.parse(localStorage.getItem(b)).name.toLowerCase();
+        return nameA.localeCompare(nameB);
+    });
 
     var addedValues = {}; // Keep track of values that have already been added
 
