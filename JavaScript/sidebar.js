@@ -125,6 +125,8 @@ function populateDateOptions(selectId, filterType) {
 
         }else if(data[filterType] == "jama"){
             option.textContent = "Deposit";
+        }else if(data[filterType] == "sevenregister"){
+            option.textContent = "7 Register"
         }else{
 
             option.textContent = data[filterType];
